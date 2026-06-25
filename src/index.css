@@ -1,0 +1,85 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&display=swap');
+
+@import "tailwindcss";
+
+@theme {
+  /* Brand colors */
+  --color-primary: #00450d;
+  --color-on-primary: #ffffff;
+  --color-primary-container: #1b5e20;
+  --color-on-primary-container: #90d689;
+  --color-inverse-primary: #91d78a;
+  
+  --color-secondary: #7a5649;
+  --color-on-secondary: #ffffff;
+  --color-secondary-container: #fdcdbc;
+  --color-on-secondary-container: #795548;
+
+  --color-tertiary: #735c00;
+  --color-on-tertiary: #ffffff;
+  --color-tertiary-container: #cca830;
+  --color-on-tertiary-container: #4f3e00;
+
+  --color-surface: #fdf9f0;
+  --color-surface-dim: #dddad1;
+  --color-surface-bright: #fdf9f0;
+  --color-surface-container-lowest: #ffffff;
+  --color-surface-container-low: #f7f3ea;
+  --color-surface-container: #f1eee5;
+  --color-surface-container-high: #ece8df;
+  --color-surface-container-highest: #e6e2d9;
+  
+  --color-on-surface: #1c1c16;
+  --color-on-surface-variant: #41493e;
+  --color-on-background: #1c1c16;
+  --color-background: #fdf9f0;
+
+  --color-outline: #717a6d;
+  --color-outline-variant: #c0c9bb;
+
+  /* Typography Fonts */
+  --font-heading: "Plus Jakarta Sans", sans-serif;
+  --font-sans: "Inter", sans-serif;
+
+  /* Shape language - rounded corners */
+  --radius-sm: 0.25rem;       /* 4px */
+  --radius-default: 0.5rem;   /* 8px */
+  --radius-md: 0.75rem;      /* 12px */
+  --radius-lg: 1rem;         /* 16px */
+  --radius-xl: 1.5rem;       /* 24px */
+}
+
+/* Custom Base Styles */
+body {
+  font-family: var(--font-sans);
+  background-color: var(--color-background);
+  color: var(--color-on-surface);
+  margin: 0;
+  padding: 0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+}
+
+/* Ambient Shadows based on Design System */
+.ambient-shadow-low {
+  box-shadow: 0 4px 20px rgba(28, 28, 22, 0.04);
+}
+
+.ambient-shadow-mid {
+  box-shadow: 0 10px 30px rgba(28, 28, 22, 0.08);
+}
+
+.hover-lift {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.hover-lift:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 30px rgba(28, 28, 22, 0.08);
+}
+
+.glass-nav {
+  backdrop-filter: blur(12px);
+}
