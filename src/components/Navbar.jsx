@@ -1,18 +1,20 @@
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
+import { useAuth } from '../context/AuthContext';
 import { ShoppingCart, Menu, X } from 'lucide-react';
 
 export default function Navbar() {
   const { setCartOpen, getCartCount } = useCart();
+  const { user, logout, userProfile } = useAuth();
   const location = useLocation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const navLinks = [
     { name: 'Beranda', path: '/' },
-    { name: 'Edukasi Budidaya', path: '/edukasi' },
+    { name: 'Budidaya', path: '/edukasi' },
     { name: 'Wisata Desa', path: '/wisata' },
-    { name: 'Toko Kelontong', path: '/toko' },
+    { name: 'Toko', path: '/toko' },
     { name: 'Hubungi Kami', path: '/kontak' },
   ];
 
@@ -67,13 +69,27 @@ export default function Navbar() {
             )}
           </button>
 
-          {/* Contact Button Desktop */}
-          <Link
-            to="/kontak"
-            className="hidden md:inline-flex bg-primary text-on-primary font-label-md text-label-md uppercase tracking-wider px-6 py-3 rounded-default shadow-sm hover:bg-primary-container hover:brightness-110 active:scale-95 transition-all duration-200"
-          >
-            Hubungi
-          </Link>
+          {/* Auth Button Desktop */}
+          {user ? (
+            <div className="hidden md:flex items-center gap-4">
+              <span className="text-body-md font-medium text-on-surface-variant">
+                Halo, {userProfile?.name || user.displayName || 'Pengguna'}
+              </span>
+              <button
+                onClick={logout}
+                className="bg-surface-container-high border border-outline/30 text-on-surface font-label-md text-label-md uppercase tracking-wider px-6 py-3 rounded-default shadow-sm hover:bg-surface-container-highest hover:brightness-105 active:scale-95 transition-all duration-200 cursor-pointer"
+              >
+                Keluar
+              </button>
+            </div>
+          ) : (
+            <Link
+              to="/login"
+              className="hidden md:inline-flex bg-primary text-on-primary font-label-md text-label-md uppercase tracking-wider px-6 py-3 rounded-default shadow-sm hover:bg-primary-container hover:brightness-110 active:scale-95 transition-all duration-200"
+            >
+              Masuk
+            </Link>
+          )}
 
           {/* Mobile Menu Toggle */}
           <button
@@ -103,13 +119,30 @@ export default function Navbar() {
               {link.name}
             </Link>
           ))}
-          <Link
-            to="/kontak"
-            onClick={() => setMobileMenuOpen(false)}
-            className="mt-2 bg-primary text-on-primary text-center font-label-md text-label-md uppercase tracking-wider py-3.5 rounded-default shadow-sm active:scale-95 transition-all"
-          >
-            Hubungi Kami
-          </Link>
+          {user ? (
+            <div className="mt-2 flex flex-col gap-2 border-t border-outline-variant/30 pt-4">
+              <div className="text-center text-body-md font-medium text-on-surface-variant mb-1">
+                Halo, {userProfile?.name || user.displayName || 'Pengguna'}
+              </div>
+              <button
+                onClick={() => {
+                  logout();
+                  setMobileMenuOpen(false);
+                }}
+                className="bg-surface-container-high border border-outline/30 text-on-surface text-center font-label-md text-label-md uppercase tracking-wider py-3.5 rounded-default shadow-sm active:scale-95 transition-all cursor-pointer"
+              >
+                Keluar
+              </button>
+            </div>
+          ) : (
+            <Link
+              to="/login"
+              onClick={() => setMobileMenuOpen(false)}
+              className="mt-2 bg-primary text-on-primary text-center font-label-md text-label-md uppercase tracking-wider py-3.5 rounded-default shadow-sm active:scale-95 transition-all"
+            >
+              Masuk
+            </Link>
+          )}
         </div>
       )}
     </header>
