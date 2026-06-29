@@ -142,7 +142,8 @@ export default function Toko() {
                 </p>
                 <a
                   className="inline-flex items-center text-[#114224] font-sans font-bold text-sm hover:underline"
-                  href="https://wa.me/6281234567890"
+                  href={`https://wa.me/6285808805840?text=Halo%20Admin%20Latar%20Balai,%20saya%20ingin%20memesan%20produk`}
+
                   target="_blank"
                   rel="noopener noreferrer"
                 >

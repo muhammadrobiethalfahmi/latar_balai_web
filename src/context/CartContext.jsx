@@ -54,7 +54,7 @@ export function CartProvider({ children }) {
 
   const sendWhatsAppCheckout = (formData) => {
     const { name, address, orderType } = formData;
-    const adminWhatsApp = '6281234567890'; // Default placeholder, can be replaced by user
+    const adminWhatsApp = '6285808805840'; // Default placeholder, can be replaced by user
     
     let message = `*PESANAN BARU - LATAR BALAI MULYOARJO*\n\n`;
     message += `*Detail Pelanggan:*\n`;

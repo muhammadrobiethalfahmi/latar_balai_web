@@ -10,31 +10,55 @@ export function AuthProvider({ children }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const unsubscribe = onAuthChange(async (firebaseUser) => {
-      setUser(firebaseUser);
+  const unsubscribe = onAuthChange(async (firebaseUser) => {
 
-      if (firebaseUser) {
-        // Fetch user profile from Firestore
-        try {
-          const profile = await getDocument('users', firebaseUser.uid);
-          setUserProfile(profile);
-        } catch {
-          setUserProfile(null);
-        }
-      } else {
+    console.log("FIREBASE USER:", firebaseUser);
+
+    setUser(firebaseUser);
+
+    if (firebaseUser) {
+
+      try {
+        const profile = await getDocument(
+          'users',
+          firebaseUser.uid
+        );
+
+        console.log("FIRESTORE PROFILE:", profile);
+
+        setUserProfile(profile);
+
+      } catch(error) {
+
+        console.log("PROFILE ERROR:", error);
         setUserProfile(null);
       }
 
-      setLoading(false);
-    });
+    } else {
+      setUserProfile(null);
+    }
 
-    return unsubscribe;
-  }, []);
+    setLoading(false);
+  });
+
+  return unsubscribe;
+}, []);
 
   const login = async (email, password) => {
-    const firebaseUser = await loginWithEmail(email, password);
-    return firebaseUser;
+  const firebaseUser = await loginWithEmail(email, password);
+
+  const profile = await getDocument(
+    'users',
+    firebaseUser.uid
+  );
+
+  setUserProfile(profile);
+
+  return {
+    ...firebaseUser,
+    profile
   };
+};
 
   const register = async (email, password, displayName, phone = '') => {
     const firebaseUser = await registerWithEmail(email, password, displayName);
@@ -45,7 +69,7 @@ export function AuthProvider({ children }) {
       name: displayName,
       email: firebaseUser.email,
       phone,
-      role: 'customer',
+      role: 'user',
     });
 
     // Fetch the new profile
@@ -66,6 +90,9 @@ export function AuthProvider({ children }) {
   };
 
   const isAdmin = userProfile?.role === 'admin';
+
+console.log("USER PROFILE:", userProfile);
+console.log("IS ADMIN:", isAdmin);
 
   return (
     <AuthContext.Provider

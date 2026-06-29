@@ -32,7 +32,7 @@ export default function Kontak() {
     waMessage += `*Pesan:*\n${formData.message}`;
 
     const encodedMessage = encodeURIComponent(waMessage);
-    window.open(`https://wa.me/6281234567890?text=${encodedMessage}`, '_blank');
+    window.open(`https://wa.me/6285808805840?text=${encodedMessage}`, '_blank');
 
     setSubmitted(true);
     setTimeout(() => setSubmitted(false), 5000);
@@ -90,11 +90,11 @@ export default function Kontak() {
                     Telepon / WhatsApp
                   </h3>
                   <p className="font-sans text-sm text-on-surface-variant mb-1">
-                    +62 812-3456-7890
+                    +62 858-0880-5840
                   </p>
                   <a
                     className="text-tertiary font-bold text-sm hover:underline"
-                    href="https://wa.me/6281234567890"
+                    href="https://wa.me/6285808805840"
                     target="_blank"
                     rel="noopener noreferrer"
                   >
