@@ -3,6 +3,12 @@ import { useAuth } from '../context/AuthContext';
 
 export default function ProtectedRoute({ children, requireAdmin = false }) {
   const { user, loading, isAdmin } = useAuth();
+    console.log({
+    loading,
+    user,
+    isAdmin,
+    requireAdmin
+  }); 
 
   if (loading) {
     return (

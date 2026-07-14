@@ -25,142 +25,66 @@ export default function AdminLogin() {
   // Redirect jika sudah admin
   useEffect(() => {
 
-    console.log("CHECK ADMIN LOGIN PAGE");
-    console.log("USER:", user);
-    console.log("PROFILE:", userProfile);
-    console.log("IS ADMIN:", isAdmin);
+  if (!user) return;
 
+  if (!userProfile) return;
 
-    if(user && isAdmin){
+  if (isAdmin) {
 
-      navigate('/admin/dashboard', {
-        replace:true
-      });
+    toast.success("Login berhasil");
 
-    }
+    navigate("/admin/dashboard", {
+      replace: true,
+    });
 
-  }, [
-    user,
-    userProfile,
-    isAdmin,
-    navigate
-  ]);
+  } else {
 
+    toast.error("Akun ini bukan administrator");
 
+    logout();
 
-  const handleSubmit = async (e) => {
+  }
 
-    e.preventDefault();
+  setIsLoading(false);
 
-    if(isLoading) return;
-
-
-    setIsLoading(true);
-
-
-    try {
-
-      const result = await login(
-        identity,
-        password
-      );
-
-
-      console.log(
-        "LOGIN RESULT:",
-        result
-      );
-
-
-      /*
-        Tunggu AuthContext membaca profile Firestore
-        sebelum cek admin
-      */
-
-      setTimeout(()=>{
-
-
-        if(!isAdmin){
-
-          toast.error(
-            "Akun ini bukan administrator"
-          );
-
-          logout();
-
-          setIsLoading(false);
-
-          return;
-
-        }
-
-
-        console.log(
-          "ADMIN VERIFIED"
-        );
-
-
-        setIsSuccess(true);
-
-
-        setTimeout(()=>{
-
-          navigate(
-            '/admin/dashboard',
-            {
-              replace:true
-            }
-          );
-
-        },500);
+}, [
+  user,
+  userProfile,
+  isAdmin,
+  navigate,
+]);
 
 
 
-      },1000);
+const handleSubmit = async (e) => {
+  e.preventDefault();
 
+  if (isLoading) return;
 
+  setIsLoading(true);
 
-    } catch(error){
+  try {
 
+    await login(identity, password);
 
-      console.log(
-        "LOGIN ERROR:",
-        error
-      );
+    // Tidak cek admin di sini
+    // AuthContext akan mengisi userProfile
 
+  } catch (error) {
 
-      const messages = {
+    const messages = {
+      "auth/invalid-credential": "Kredensial admin tidak valid.",
+      "auth/user-not-found": "Akun admin tidak ditemukan.",
+      "auth/wrong-password": "Kata sandi salah.",
+      "auth/too-many-requests": "Terlalu banyak percobaan.",
+      "auth/invalid-email": "Format email tidak valid.",
+    };
 
-        'auth/invalid-credential':
-        'Kredensial admin tidak valid.',
+    toast.error(messages[error.code] || "Gagal login.");
 
-        'auth/user-not-found':
-        'Akun admin tidak ditemukan.',
-
-        'auth/wrong-password':
-        'Kata sandi salah.',
-
-        'auth/too-many-requests':
-        'Terlalu banyak percobaan.',
-
-        'auth/invalid-email':
-        'Format email tidak valid.',
-
-      };
-
-
-      toast.error(
-        messages[error.code] ||
-        'Gagal masuk. Periksa kredensial Anda.'
-      );
-
-
-      setIsLoading(false);
-
-
-    }
-
-  };
+    setIsLoading(false);
+  }
+};
 
 
 

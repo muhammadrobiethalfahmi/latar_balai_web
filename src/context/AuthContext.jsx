@@ -80,6 +80,7 @@ export function AuthProvider({ children }) {
   };
 
   const logout = async () => {
+    console.trace("LOGOUT DIPANGGIL");
     await logoutUser();
     setUser(null);
     setUserProfile(null);

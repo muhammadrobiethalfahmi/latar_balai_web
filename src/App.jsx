@@ -30,6 +30,7 @@ const AUTH_ROUTES = ['/login', '/daftar', '/lupa-password', '/admin/login'];
 
 function AppLayout() {
   const location = useLocation();
+  console.log(location.pathname);
   const isAuthPage = AUTH_ROUTES.includes(location.pathname);
   const isAdminPage = location.pathname.startsWith('/admin') && location.pathname !== '/admin/login';
 
@@ -46,7 +47,12 @@ function AppLayout() {
       ) : isAdminPage ? (
         /* Admin pages with AdminLayout */
         <Routes>
-          <Route path="/admin" element={<ProtectedRoute requireAdmin={true}><AdminLayout /></ProtectedRoute>}>
+          <Route 
+            path="/admin/*" 
+              element={
+                <ProtectedRoute requireAdmin={true}>
+                  <AdminLayout />
+                  </ProtectedRoute>}>
             <Route index element={<Navigate to="dashboard" replace />} />
             <Route path="dashboard" element={<AdminDashboard />} />
             <Route path="products" element={<Products />} />
@@ -97,7 +103,7 @@ function AppLayout() {
 
 function App() {
   return (
-    <Router>
+    <Router basename="/latar_balai_web">
       <AuthProvider>
         <CartProvider>
           <AppLayout />
