@@ -1,81 +1,59 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useCart } from '../context/CartContext';
+import { getProducts } from '../services/productService';
 
-const PRODUCTS = [
-  {
-    id: 'telur-kampung',
-    title: 'Telur Ayam Kampung',
-    category: 'Peternakan',
-    description: 'Kualitas Grade A, dipanen setiap pagi dari peternakan lokal dengan pakan alami.',
-    price: 25000,
-    unit: 'kg',
-    badge: 'Grade A',
-    badgeColor: 'bg-[#D97706] text-white', // Menggunakan aksen warna amber/emas premium
-    image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAUkEizOAOqBxz8TicWVpz45p25cYO_YwSLJkO-HlnmvCgwBpno903fex52cIectJqRh4NS0CyN2qay2fhVyrJoXeb1Buz5qxwu8A8X8PA0cGCPiOKV2I2wlqWBgteGNrzh06asGcCsjoiG7CkmuY0bee6JNXgTqPc_h0HHR7LyvNV49i-1U7Ui4p1FImbCquFa9qPUnqF4CMIl8a6tq31CTCi_fMv8p3ptPsQXf_NnKDAzA4q7iSeraXAustyK8CowPR48zMzkqq0_',
-  },
-  {
-    id: 'ayam-afkir',
-    title: 'Ayam Afkir Segar',
-    category: 'Peternakan',
-    description: 'Ayam segar pilihan, sudah dibersihkan dan siap olah untuk berbagai masakan Nusantara.',
-    price: 45000,
-    unit: 'ekor',
-    badge: null,
-    image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAUlAYnXCZ3u4m31uzxfVV-dET-Wslml6mbiUJmQ3vbVeysSsgSwb0jHaGL3AUwfHtwJJtBcd0G2sgyMwI4eJkEwRXVyAk138ew3sClrz0-K6kf9Z3CL_tQUv4Q1UNLT8KCaG9YmuZi3YrVJzfRQ8eSJF2MAIRL45wnEztzh3-uZ7N-oYsfvkTxUECNpC1pUNz18P9S8l-CufZX-7fbYPrERkqnpbgyYOUpW3s7H94HQq-vB_OyIWwK1u3RQnWEdVkcekooxrYenLQU',
-  },
-  {
-    id: 'pupuk-organik',
-    title: 'Pupuk Organik Cair',
-    category: 'Pertanian',
-    description: 'Diproduksi mandiri oleh unit peternakan desa. Kaya nutrisi untuk menyuburkan tanaman Anda.',
-    price: 30000,
-    unit: 'liter',
-    badge: null,
-    image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuC_6G9x2WcGPYawEN62pFVu0zg_jDVeXUK89boQAmz281jxB5BAJSq8JkzIQDVgv2HUT7C7GICnWhqEvN4WFLv4_Ff0sY02FE3FL7QjlHVeSqQKYqyYOBQnmhc3iCdO8ZnadHPYQ-8DBHfCAmJx-YXpkjhGC0llJDIflq6WDOgMgxejXMAUMh1jvsVy7xhFxulBIv_ZiZVdK44t64DGLC8fQIbSGAfi6c2M8YTt9DnuqzPazjjcLN5bmaq19Nr75VknQo47hmttFl5',
-  },
-  {
-    id: 'beras-mulyoarjo',
-    title: 'Beras Mulyoarjo',
-    category: 'Pertanian',
-    description: 'Beras premium hasil panen lokal yang pulen dan harum, diproses tanpa pemutih buatan.',
-    price: 65000,
-    unit: '5kg',
-    badge: 'Premium',
-    badgeColor: 'bg-[#114224] text-white', // Menggunakan warna utama hijau hutan desa
-    image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuB6bXCtaRHRDqFI-6TwF2jgvFwy39UEzTFKytCSUsPwALmJY82RECkDJQ-Ov4qlYEEh89qAFq3aiQ27ECg9pcZovMYIG_CUzhJV3MPaw9ff_APhVhm3sLjWZ2xISXJBEc9fFaHI_z0UIWZdMO0BWmez1YE2VMKdpJ9EQe1kVskoNffH3YVodcMOmwmos7KDKDK2t-kFs8APTX5UMyNvI_NO3ci4cOMDOX36PtMvQunMTJL8JzlutkhUiQEFmb7DboUnIGr_9NvkvmYg',
-  },
-  {
-    id: 'anyaman-bambu',
-    title: 'Anyaman Bambu Tradisional',
-    category: 'Kerajinan',
-    description: 'Kerajinan tangan otentik hasil karya pengrajin Desa Mulyoarjo. Kuat dan estetis.',
-    price: 75000,
-    unit: 'set',
-    badge: null,
-    image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCj7E06gSIbQpKUcTf9nSp4pOWySD-Cyw7i2Bbkjpxp2zcyeLlB4jx4c5e9NuMp0o30qlAjMaSxlfNompssbCeHEWQkyv1gJGPExM4Q8VrWqshDQz04LCNPrlUtIuUSaqyqvqdF7ER56JsIa57lGhf77-St9lx1AAaiMv8hJKuf6VLp9ifi02HTHTPtrhrYuPYGOEqMLQsJJKmKIW6lNVFfFIPj1FTXJCIl3O4BSQS20EyYNmKUDofJ1_j2mRr5qgQNRYTBgMYFHWLJ',
-  },
+const CATEGORIES = [
+  'Semua Produk',
+  'Peternakan',
+  'Pertanian',
+  'Kerajinan',
 ];
-
-const CATEGORIES = ['Semua Produk', 'Peternakan', 'Pertanian', 'Kerajinan'];
 
 export default function Toko() {
   const [activeCategory, setActiveCategory] = useState('Semua Produk');
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
   const { addToCart } = useCart();
+  useEffect(() => {
+
+  loadProducts();
+
+}, []);
+
+async function loadProducts() {
+  try {
+    const data = await getProducts();
+
+    console.log(JSON.stringify(data, null, 2));
+
+    setProducts(data);
+
+  } catch (error) {
+    console.log(error);
+
+  } finally {
+    setLoading(false);
+  }
+}
 
   const filteredProducts =
     activeCategory === 'Semua Produk'
-      ? PRODUCTS
-      : PRODUCTS.filter((p) => p.category === activeCategory);
+      ? products
+      : products.filter( 
+             (p) =>
+          p.category?.trim().toLowerCase() ===
+          activeCategory.trim().toLowerCase()
+      );
 
-  const handleAddToCart = (product) => {
-    addToCart({
-      id: product.id,
-      title: product.title,
-      price: product.price,
-      unit: product.unit,
-      image: product.image,
-    });
-  };
+const handleAddToCart = (product) => {
+  addToCart({
+    id: product.id,
+    title: product.name,
+    price: Number(product.price),
+    unit: "pcs",
+    image: product.imageUrl,
+  });
+};
 
   return (
     <main className="w-full bg-[#FDFBF7] text-left">
@@ -183,9 +161,9 @@ export default function Toko() {
                     {/* Product Image */}
                     <div className="relative aspect-[4/3] overflow-hidden bg-stone-100">
                       <img
-                        alt={product.title}
+                        alt={product.name}
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                        src={product.image}
+                        src={product.imageUrl}
                         onError={(e) => {
                           e.target.src = 'https://images.unsplash.com/photo-1542223175-7582dd7ee509?w=500&auto=format&fit=crop&q=60';
                         }}
@@ -205,7 +183,7 @@ export default function Toko() {
                         {product.category}
                       </span>
                       <h3 className="font-serif text-lg font-bold text-[#191C19] mb-2 group-hover:text-[#114224] transition-colors">
-                        {product.title}
+                        {product.name}
                       </h3>
                       <p className="font-sans text-sm text-stone-600 mb-6 line-clamp-2 leading-relaxed">
                         {product.description}
@@ -216,14 +194,14 @@ export default function Toko() {
                         <div className="flex flex-col">
                           <span className="font-sans text-[11px] text-stone-400 uppercase tracking-wider">Harga</span>
                           <span className="font-serif font-bold text-[#114224] text-lg">
-                            Rp {product.price.toLocaleString('id-ID')}
+                            Rp {Number(product.price).toLocaleString('id-ID')}
                             <span className="font-sans text-xs font-normal text-stone-500">/{product.unit}</span>
                           </span>
                         </div>
                         <button
                           onClick={() => handleAddToCart(product)}
                           className="w-12 h-12 rounded-xl bg-[#114224] text-white flex items-center justify-center hover:bg-[#0B2D18] transition-all shadow-sm cursor-pointer hover:scale-105 active:scale-95"
-                          aria-label={`Tambahkan ${product.title} ke keranjang`}
+                          aria-label={`Tambahkan ${product.name} ke keranjang`}
                         >
                           <span className="material-symbols-outlined text-xl">add_shopping_cart</span>
                         </button>

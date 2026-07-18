@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Plus, X, AlertTriangle } from 'lucide-react';
 import DataTable from '../../components/admin/DataTable';
+import { uploadImage } from "../../services/cloudinaryService";
 import {
   getProducts,
   addProduct,
@@ -23,10 +24,11 @@ export default function Products() {
     price: '',
     category: '',
     stock: '',
-    image: '',
+    imageUrl: '',
+    image: null,
   });
 
-  const categories = ['Pertanian', 'Kerajinan', 'Makanan & Minuman', 'Jasa', 'Lainnya'];
+  const categories = ['Pertanian', 'Peternakan', 'Kerajinan', 'Lainnya'];
 
   useEffect(() => {
     fetchProductsList();
@@ -53,7 +55,8 @@ export default function Products() {
       price: '',
       category: categories[0],
       stock: '',
-      image: '',
+      imageUrl: '',
+      image: null,
     });
     setModalOpen(true);
   };
@@ -66,7 +69,9 @@ export default function Products() {
       price: product.price || '',
       category: product.category || categories[0],
       stock: product.stock || '',
-      image: product.image || '',
+      imageUrl: product.imageUrl || '',
+      image: null,
+
     });
     setModalOpen(true);
   };
@@ -92,14 +97,22 @@ export default function Products() {
     }
 
     try {
-      const payload = {
-        name: form.name,
-        description: form.description,
-        price: productPrice,
-        category: form.category,
-        stock: productStock,
-        image: form.image,
-      };
+      let imageUrl = form.imageUrl;
+
+if (form.image) {
+  imageUrl = await uploadImage(form.image);
+}
+
+const payload = {
+  name: form.name,
+  description: form.description,
+  price: productPrice,
+  category: form.category,
+  stock: productStock,
+  imageUrl,
+  status: "aktif",
+};
+      console.log("Payload:", payload);
 
       if (currentProduct) {
         // Edit Mode
@@ -113,6 +126,7 @@ export default function Products() {
 
       setModalOpen(false);
       fetchProductsList();
+      
     } catch (error) {
       toast.error('Gagal menyimpan produk');
       console.error(error);
@@ -136,10 +150,10 @@ export default function Products() {
   const columns = [
     {
       header: 'Gambar',
-      key: 'image',
+      key: 'imageUrl',
       render: (row) => (
         <img
-          src={row.image || 'https://via.placeholder.com/80?text=Produk'}
+          src={row.imageUrl || 'https://via.placeholder.com/80?text=Produk'}
           alt={row.name}
           className="w-12 h-12 object-cover rounded-md border border-outline-variant/30 bg-surface-container-lowest"
         />
@@ -313,18 +327,32 @@ export default function Products() {
               </div>
 
               {/* Image URL */}
+              {/* Upload Gambar */}
               <div>
                 <label className="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-1.5">
-                  URL Gambar Produk
+                  Gambar Produk
                 </label>
+
                 <input
-                  type="url"
-                  name="image"
-                  value={form.image}
-                  onChange={handleInputChange}
-                  placeholder="https://example.com/gambar-produk.jpg"
-                  className="w-full px-3 py-2.5 border border-outline/30 rounded-default text-body-md bg-surface focus:outline-none focus:border-primary transition-colors"
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) =>
+                    setForm((prev) => ({
+                      ...prev,
+                      image: e.target.files[0],
+                    }))
+                  }
+                  className="w-full px-3 py-2.5 border border-outline/30 rounded-default"
                 />
+
+                {/* Preview Gambar */}
+                {form.image && (
+                  <img
+                    src={URL.createObjectURL(form.image)}
+                    alt="Preview"
+                    className="w-32 h-32 mt-3 rounded-lg object-cover border"
+                  />
+                )}
               </div>
 
               {/* Description */}
