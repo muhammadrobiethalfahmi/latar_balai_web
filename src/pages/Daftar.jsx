@@ -65,7 +65,7 @@ export default function Daftar() {
       <header className="fixed top-0 left-0 right-0 z-50 bg-surface/70 backdrop-blur-md border-b border-outline-variant/30 shadow-sm">
         <div className="max-w-[1280px] mx-auto px-5 md:px-16 py-4 flex justify-between items-center w-full">
           <Link to="/" className="font-heading text-2xl font-bold text-primary tracking-tight">
-            Latar Balai Mulyoarjo
+            Latar Bale Mulyoarjo
           </Link>
           <Link
             to="/login"
@@ -293,7 +293,7 @@ export default function Daftar() {
       <footer className="w-full py-8 mt-auto border-t border-outline-variant/20 bg-surface-container-high/30">
         <div className="max-w-[1280px] mx-auto px-5 text-center">
           <p className="text-xs text-outline font-medium tracking-wide">
-            © 2024 Latar Balai Mulyoarjo. Premium Village Platform.
+            © 2026 Latar Bale Mulyoarjo. Premium Village Platform.
           </p>
         </div>
       </footer>

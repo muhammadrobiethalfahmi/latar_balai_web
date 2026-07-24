@@ -22,7 +22,7 @@ export default function Wisata() {
             Destinasi Unggulan
           </span>
           <h1 className="font-heading font-bold text-headline-xl-mobile md:text-headline-xl text-on-tertiary mb-6 max-w-4xl mx-auto drop-shadow-sm leading-tight">
-            Wisata Pemancingan Latar Balai
+            Wisata Pemancingan Latar Bale
           </h1>
           <p className="font-sans text-body-lg text-on-tertiary/90 max-w-2xl mx-auto mb-10 drop-shadow-sm leading-relaxed">
             Ketenangan alam dan keseruan memancing di jantung Desa Mulyoarjo. Nikmati pengalaman ekowisata premium yang menyatu dengan harmoni pedesaan.
@@ -164,14 +164,14 @@ export default function Wisata() {
               Kunjungi Kami
             </h2>
             <p className="font-sans text-body-md text-on-surface-variant mb-8 leading-relaxed">
-              Latar Balai Fishing Tourism berlokasi strategis di pusat Desa Mulyoarjo. Tempat pelarian sempurna dari hiruk-pikuk kota, mudah diakses kendaraan pribadi.
+              Latar Bale Fishing Tourism berlokasi strategis di pusat Desa Mulyoarjo. Tempat pelarian sempurna dari hiruk-pikuk kota, mudah diakses kendaraan pribadi.
             </p>
             <div className="space-y-4 mb-8">
               <div className="flex items-center gap-3">
                 <span className="material-symbols-outlined text-primary text-xl" style={{ fontVariationSettings: "'FILL' 1" }}>
                   location_on
                 </span>
-                <span className="font-sans text-body-md text-on-surface">Jl. Desa Mulyoarjo Blok C, Latar Balai</span>
+                <span className="font-sans text-body-md text-on-surface">Jl. Desa Mulyoarjo Blok C, Latar Bale</span>
               </div>
               <div className="flex items-center gap-3">
                 <span className="material-symbols-outlined text-primary text-xl" style={{ fontVariationSettings: "'FILL' 1" }}>

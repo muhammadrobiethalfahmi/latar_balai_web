@@ -21,6 +21,7 @@ import AdminLogin from './pages/AdminLogin';
 import AdminLayout from './pages/admin/AdminLayout';
 import AdminDashboard from './pages/admin/AdminDashboard';
 import Products from './pages/admin/Products';
+import Orders from './pages/admin/Orders';
 import TourismManagement from './pages/admin/TourismManagement';
 import EducationManagement from './pages/admin/EducationManagement';
 import UsersManagement from './pages/admin/UsersManagement';
@@ -56,6 +57,7 @@ function AppLayout() {
             <Route index element={<Navigate to="dashboard" replace />} />
             <Route path="dashboard" element={<AdminDashboard />} />
             <Route path="products" element={<Products />} />
+            <Route path="orders" element={<Orders />} />
             <Route path="tourism" element={<TourismManagement />} />
             <Route path="education" element={<EducationManagement />} />
             <Route path="users" element={<UsersManagement />} />

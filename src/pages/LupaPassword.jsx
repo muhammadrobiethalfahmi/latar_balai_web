@@ -44,7 +44,7 @@ export default function LupaPassword() {
           </div>
           <div>
             <h2 className="text-primary font-bold tracking-tight text-xl font-heading">
-              Latar Balai Mulyoarjo
+              Latar Bale Mulyoarjo
             </h2>
             <p className="text-secondary font-medium text-sm tracking-widest uppercase">
               Premium Village Platform

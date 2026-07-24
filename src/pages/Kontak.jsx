@@ -25,7 +25,7 @@ export default function Kontak() {
       lainnya: 'Lainnya',
     };
 
-    let waMessage = `*PESAN BARU - LATAR BALAI MULYOARJO*\n\n`;
+    let waMessage = `*PESAN BARU - LATAR BALE MULYOARJO*\n\n`;
     waMessage += `*Dari:* ${formData.name}\n`;
     waMessage += `*Email:* ${formData.email}\n`;
     waMessage += `*Subjek:* ${subjectMap[formData.subject] || formData.subject}\n\n`;

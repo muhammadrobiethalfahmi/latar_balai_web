@@ -7,12 +7,12 @@ import {
   MapPin,
   BookOpen,
   Users,
+  ClipboardList,
   Settings,
   LogOut,
   X,
   Shield,
 } from 'lucide-react';
-import toast from 'react-hot-toast';
 
 export default function AdminSidebar({ mobileOpen, setMobileOpen }) {
   const { logout, userProfile } = useAuth();
@@ -21,6 +21,7 @@ export default function AdminSidebar({ mobileOpen, setMobileOpen }) {
   const menuItems = [
     { name: 'Dashboard', path: '/admin/dashboard', icon: LayoutDashboard },
     { name: 'Produk BUMDes', path: '/admin/products', icon: ShoppingBag },
+    { name: 'Pesanan', path: '/admin/orders', icon: ClipboardList },
     { name: 'Wisata Desa', path: '/admin/tourism', icon: MapPin },
     { name: 'E-Edukasi', path: '/admin/education', icon: BookOpen },
     { name: 'Manajemen User', path: '/admin/users', icon: Users },
@@ -46,7 +47,7 @@ export default function AdminSidebar({ mobileOpen, setMobileOpen }) {
           </div>
           <div>
             <h1 className="font-heading font-bold text-sm tracking-tight text-white leading-tight">
-              Latar Balai Digital
+              Latar Bale Digital
             </h1>
             <p className="text-[10px] text-[#D4AF37] font-semibold uppercase tracking-wider">
               Panel Administrator

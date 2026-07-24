@@ -24,6 +24,7 @@ export default function Products() {
     price: '',
     category: '',
     stock: '',
+    unit: '',
     imageUrl: '',
     image: null,
   });
@@ -55,6 +56,7 @@ export default function Products() {
       price: '',
       category: categories[0],
       stock: '',
+      unit: 'pcs',
       imageUrl: '',
       image: null,
     });
@@ -69,6 +71,7 @@ export default function Products() {
       price: product.price || '',
       category: product.category || categories[0],
       stock: product.stock || '',
+      unit: product.unit || "pcs",
       imageUrl: product.imageUrl || '',
       image: null,
 
@@ -109,6 +112,7 @@ const payload = {
   price: productPrice,
   category: form.category,
   stock: productStock,
+  unit: form.unit,
   imageUrl,
   status: "aktif",
 };
@@ -323,6 +327,30 @@ const payload = {
                       {cat}
                     </option>
                   ))}
+                </select>
+              </div>
+              <div>
+                <label className="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-1.5">
+                  Satuan
+                </label>
+
+                <select
+                  name="unit"
+                  value={form.unit}
+                  onChange={handleInputChange}
+                  className="w-full px-3 py-2.5 border border-outline/30 rounded-default"
+                >
+                  <option value="pcs">pcs</option>
+                  <option value="kg">kg</option>
+                  <option value="gram">gram</option>
+                  <option value="ekor">ekor</option>
+                  <option value="ikat">ikat</option>
+                  <option value="bungkus">bungkus</option>
+                  <option value="karung">karung</option>
+                  <option value="liter">liter</option>
+                  <option value="botol">botol</option>
+                  <option value="pack">pack</option>
+                  <option value="set">set</option>
                 </select>
               </div>
 

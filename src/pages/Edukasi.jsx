@@ -20,7 +20,7 @@ export default function Edukasi() {
             Program Unggulan
           </span>
           <h1 className="font-serif font-bold text-3xl md:text-5xl text-white mb-6 drop-shadow-md leading-tight">
-            Belajar Budidaya Kambing Bersama Latar Balai
+            Belajar Budidaya Kambing Bersama latar bale mulyoarjo
           </h1>
           <p className="font-sans text-lg md:text-xl text-stone-100 max-w-3xl mx-auto drop-shadow-sm leading-relaxed">
             Pusat pembelajaran komunitas untuk peternakan berkelanjutan dan pemberdayaan ekonomi desa.
@@ -58,7 +58,7 @@ export default function Edukasi() {
               Membangun Pengetahuan, Memberdayakan Komunitas
             </h2>
             <p className="font-sans text-base text-stone-600 leading-relaxed">
-              Program Edukasi Budidaya Kambing di Latar Balai Mulyoarjo didedikasikan untuk menjembatani kearifan lokal dengan inovasi peternakan modern. Kami percaya bahwa pengetahuan adalah kunci utama dalam membangun ekosistem desa yang tangguh dan mandiri.
+              Program Edukasi Budidaya Kambing di Latar Bale Mulyoarjo didedikasikan untuk menjembatani kearifan lokal dengan inovasi peternakan modern. Kami percaya bahwa pengetahuan adalah kunci utama dalam membangun ekosistem desa yang tangguh dan mandiri.
             </p>
             <p className="font-sans text-base text-stone-600 leading-relaxed">
               Melalui pendekatan praktis dan berbasis komunitas, pengunjung dan warga desa diajak untuk memahami setiap aspek siklus kehidupan ternak—mulai dari manajemen nutrisi hingga perawatan holistik—menjadikan peternakan sebagai sumber kebanggaan dan kesejahteraan bersama.
@@ -152,7 +152,7 @@ export default function Edukasi() {
           <div>
             <h4 className="font-sans font-bold text-lg text-amber-800 mb-1">Pemberitahuan Penting</h4>
             <p className="font-sans text-sm md:text-base text-amber-900/80 leading-relaxed">
-              Kambing di Latar Balai digunakan sebagai pusat edukasi dan studi percontohan, bukan untuk diperjualbelikan. Program ini murni berfokus pada transfer pengetahuan dan pengembangan kapasitas masyarakat.
+              Kambing di Latar Bale digunakan sebagai pusat edukasi dan studi percontohan, bukan untuk diperjualbelikan. Program ini murni berfokus pada transfer pengetahuan dan pengembangan kapasitas masyarakat.
             </p>
           </div>
         </div>

@@ -50,7 +50,7 @@ const handleAddToCart = (product) => {
     id: product.id,
     title: product.name,
     price: Number(product.price),
-    unit: "pcs",
+    unit: product.unit,
     image: product.imageUrl,
   });
 };
@@ -188,6 +188,22 @@ const handleAddToCart = (product) => {
                       <p className="font-sans text-sm text-stone-600 mb-6 line-clamp-2 leading-relaxed">
                         {product.description}
                       </p>
+                      <div className="mb-5 flex items-center justify-between">
+
+                        <span className="text-xs text-gray-500">
+                          Stok
+                        </span>
+
+                        <span
+                          className={`text-sm font-semibold ${
+                            product.stock > 0
+                              ? "text-green-700"
+                              : "text-red-600"
+                          }`}
+                        >
+                          {product.stock}
+                        </span>
+                      </div>
 
                       {/* Price + Add to Cart */}
                       <div className="mt-auto pt-4 border-t border-stone-100 flex items-center justify-between">
@@ -198,13 +214,15 @@ const handleAddToCart = (product) => {
                             <span className="font-sans text-xs font-normal text-stone-500">/{product.unit}</span>
                           </span>
                         </div>
-                        <button
-                          onClick={() => handleAddToCart(product)}
-                          className="w-12 h-12 rounded-xl bg-[#114224] text-white flex items-center justify-center hover:bg-[#0B2D18] transition-all shadow-sm cursor-pointer hover:scale-105 active:scale-95"
-                          aria-label={`Tambahkan ${product.name} ke keranjang`}
-                        >
-                          <span className="material-symbols-outlined text-xl">add_shopping_cart</span>
-                        </button>
+                       <button
+                        onClick={() => handleAddToCart(product)}
+                        className="w-12 h-12 rounded-xl bg-[#114224] text-white flex items-center justify-center hover:bg-[#0B2D18] transition-all shadow-sm cursor-pointer hover:scale-105 active:scale-95"
+                        aria-label={`Tambahkan ${product.name} ke keranjang`}
+                      >
+                        <span className="material-symbols-outlined text-xl">
+                          add_shopping_cart
+                        </span>
+                      </button>
                       </div>
                     </div>
                   </div>

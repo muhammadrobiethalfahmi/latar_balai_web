@@ -110,7 +110,7 @@ export default function Login() {
                     landscape
                   </span>
                 </div>
-                <span className="font-heading text-2xl font-extrabold tracking-tight text-primary">Latar Balai</span>
+                <span className="font-heading text-2xl font-extrabold tracking-tight text-primary">Latar Bale</span>
               </div>
               <h1 className="text-2xl md:text-3xl font-bold font-heading text-on-surface mb-2">Selamat Datang Kembali</h1>
               <p className="text-on-surface-variant text-[0.875rem]">
@@ -216,7 +216,7 @@ export default function Login() {
             <div className="relative flex items-center py-8">
               <div className="flex-grow border-t border-outline-variant/20"></div>
               <span className="flex-shrink mx-4 text-outline-variant text-[10px] uppercase tracking-[0.2em] font-bold">
-                Latar Balai Mulyoarjo
+                Latar Bale Mulyoarjo
               </span>
               <div className="flex-grow border-t border-outline-variant/20"></div>
             </div>
@@ -226,7 +226,7 @@ export default function Login() {
 
       {/* Footer */}
       <footer className="py-8 text-center text-on-surface-variant/60 text-xs">
-        <p>© 2024 Latar Balai Mulyoarjo. Premium Village Platform.</p>
+        <p>© 2024 Latar Bale Mulyoarjo. Premium Village Platform.</p>
       </footer>
     </div>
   );

@@ -1,11 +1,13 @@
-import React from 'react';
-import { useLocation } from 'react-router-dom';
-import { Menu, Bell, User, Calendar } from 'lucide-react';
-import { useAuth } from '../../context/AuthContext';
+import React from "react";
+import { useLocation } from "react-router-dom";
+import { Menu, Calendar } from "lucide-react";
+import { useAuth } from "../../context/AuthContext";
+import NotificationBell from "./NotificationBell";
 
 export default function AdminNavbar({ setMobileOpen }) {
   const location = useLocation();
   const { userProfile } = useAuth();
+    
 
   const getPageTitle = () => {
     switch (location.pathname) {
@@ -28,6 +30,9 @@ export default function AdminNavbar({ setMobileOpen }) {
     const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
     return new Date().toLocaleDateString('id-ID', options);
   };
+
+  
+  
 
   return (
     <header className="h-20 bg-surface border-b border-outline-variant/30 flex items-center justify-between px-6 sticky top-0 z-10 shadow-sm">
@@ -54,10 +59,7 @@ export default function AdminNavbar({ setMobileOpen }) {
       {/* Right Controls */}
       <div className="flex items-center gap-4">
         {/* Notifications (Mock) */}
-        <button className="p-2 text-on-surface-variant/80 hover:bg-surface-container rounded-full transition-colors relative cursor-pointer">
-          <Bell size={20} />
-          <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-[#D4AF37] rounded-full" />
-        </button>
+        <NotificationBell />
 
         {/* Profile Card */}
         <div className="flex items-center gap-3 border-l border-outline-variant/40 pl-4">

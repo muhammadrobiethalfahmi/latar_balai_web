@@ -8,13 +8,13 @@ export default function Footer() {
         {/* About */}
         <div className="col-span-1 md:col-span-2">
           <h3 className="font-heading font-bold text-headline-lg text-primary dark:text-primary-fixed-dim mb-4">
-            Latar Balai Mulyoarjo
+            Latar Bale Mulyoarjo
           </h3>
           <p className="font-sans text-body-md text-secondary dark:text-secondary-fixed-dim mb-6 max-w-sm">
             Pusat integrasi edukasi, wisata, dan pemberdayaan ekonomi untuk memajukan kesejahteraan masyarakat desa Mulyoarjo.
           </p>
           <p className="font-sans text-label-md text-on-surface-variant/70 dark:text-on-surface-variant/70">
-            &copy; 2026 Latar Balai Mulyoarjo. Premium Village Platform.
+            &copy; 2026 Latar Bale Mulyoarjo. Premium Village Platform.
           </p>
         </div>
 

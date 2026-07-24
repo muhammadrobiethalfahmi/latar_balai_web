@@ -2,61 +2,71 @@ import React, { useState, useEffect } from 'react';
 import { ShoppingBag, MapPin, BookOpen, Users, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import StatCard from '../../components/admin/StatCard';
-import { getProducts } from '../../services/productService';
+import { getDashboardStats,getRevenueLast7Days, } from "../../services/dashboardService";
 import { getTourismPlaces } from '../../services/tourismService';
 import { getArticles } from '../../services/educationService';
 import { getUsers } from '../../services/userService';
+import { getProducts } from "../../services/productService";
+import {
+  ResponsiveContainer,
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  Tooltip,
+  CartesianGrid,
+} from "recharts";
 
 export default function AdminDashboard() {
   const [stats, setStats] = useState({
-    products: 0,
-    tourism: 0,
-    education: 0,
-    users: 0,
-  });
+  totalProduk: 0,
+  totalPesanan: 0,
+  totalPendapatan: 0,
+  pesananHariIni: 0,
+  produkHampirHabis: 0,
+});
   const [recentProducts, setRecentProducts] = useState([]);
   const [recentUsers, setRecentUsers] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [revenueChart, setRevenueChart] = useState([]);
 
   useEffect(() => {
-    async function fetchDashboardData() {
-      try {
-        const [productsData, tourismData, educationData, usersData] = await Promise.all([
-          getProducts(),
-          getTourismPlaces(),
-          getArticles(),
-          getUsers(),
-        ]);
+  async function fetchDashboardData() {
+    try {
+      const [
+        dashboard,
+        productsData,
+        usersData,
+        revenueData,
+      ] = await Promise.all([
+        getDashboardStats(),
+        getProducts(),
+        getUsers(),
+        getRevenueLast7Days(),
+      ]);
 
-        setStats({
-          products: productsData.length,
-          tourism: tourismData.length,
-          education: educationData.length,
-          users: usersData.length,
-        });
+      console.log("Revenue Data :", revenueData);
+      setStats(dashboard);
+      setRevenueChart(revenueData);
 
-        // Get 5 most recent products (sorted by createdAt if exists, otherwise slice)
-        const sortedProducts = [...productsData]
-          .sort((a, b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0))
-          .slice(0, 5);
-        setRecentProducts(sortedProducts);
+      const sortedProducts = [...productsData]
+        .sort((a, b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0))
+        .slice(0, 5);
 
-        // Get 5 most recent users
-        const sortedUsers = [...usersData]
-          .sort((a, b) => {
-            // Sort by createdAt or updatedAt or any fallback
-            const dateA = a.createdAt?.seconds || 0;
-            const dateB = b.createdAt?.seconds || 0;
-            return dateB - dateA;
-          })
-          .slice(0, 5);
-        setRecentUsers(sortedUsers);
-      } catch (error) {
-        console.error('Error fetching dashboard stats:', error);
-      } finally {
-        setLoading(false);
-      }
+      setRecentProducts(sortedProducts);
+
+      const sortedUsers = [...usersData]
+        .sort((a, b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0))
+        .slice(0, 5);
+
+      setRecentUsers(sortedUsers);
+
+    } catch (error) {
+      console.error("Error fetching dashboard stats:", error);
+    } finally {
+      setLoading(false);
     }
+  }
 
     fetchDashboardData();
   }, []);
@@ -94,33 +104,65 @@ export default function AdminDashboard() {
       </div>
 
       {/* Stats Cards Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-        <StatCard
-          title="Produk BUMDes"
-          value={stats.products}
-          icon={ShoppingBag}
-          color="primary"
-        />
-        <StatCard
-          title="Destinasi Wisata"
-          value={stats.tourism}
-          icon={MapPin}
-          color="secondary"
-        />
-        <StatCard
-          title="Artikel Edukasi"
-          value={stats.education}
-          icon={BookOpen}
-          color="gold"
-        />
-        <StatCard
-          title="Total Pengguna"
-          value={stats.users}
-          icon={Users}
-          color="primary"
-        />
-      </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-5 gap-6">
 
+        <StatCard
+        title="Total Produk"
+        value={stats.totalProduk}
+        icon={ShoppingBag}
+        color="primary"
+        />
+
+        <StatCard
+        title="Total Pesanan"
+        value={stats.totalPesanan}
+        icon={ShoppingBag}
+        color="secondary"
+        />
+
+        <StatCard
+        title="Total Pendapatan"
+        value={`Rp ${stats.totalPendapatan.toLocaleString("id-ID")}`}
+        icon={Users}
+        color="gold"
+        />
+
+        <StatCard
+        title="Pesanan Hari Ini"
+        value={stats.pesananHariIni}
+        icon={BookOpen}
+        color="primary"
+        />
+
+        <StatCard
+        title="Produk Hampir Habis"
+        value={stats.produkHampirHabis}
+        icon={MapPin}
+        color="secondary"
+        />
+
+        </div>
+
+      <div className="bg-white rounded-xl shadow p-6 h-[350px]">
+  <h3 className="text-lg font-bold mb-4">
+    Pendapatan 7 Hari Terakhir
+  </h3>
+
+  <ResponsiveContainer width="100%" height="100%">
+    <LineChart data={revenueChart}>
+      <CartesianGrid strokeDasharray="3 3" />
+      <XAxis dataKey="day" />
+      <YAxis />
+      <Tooltip />
+      <Line
+        type="monotone"
+        dataKey="revenue"
+        stroke="#00450D"
+        strokeWidth={3}
+      />
+    </LineChart>
+  </ResponsiveContainer>
+</div>
       {/* Detailed Sections Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Recent Products */}
@@ -143,7 +185,7 @@ export default function AdminDashboard() {
                 <div key={product.id} className="py-3 flex items-center justify-between gap-4">
                   <div className="flex items-center gap-3">
                     <img
-                      src={product.image || 'https://via.placeholder.com/80?text=Produk'}
+                      src={product.imageUrl || 'https://via.placeholder.com/80?text=Produk'}
                       alt={product.name}
                       className="w-12 h-12 object-cover rounded-md border border-outline-variant/20 bg-surface-container"
                     />

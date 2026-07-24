@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, useEffect } from 'react';
-
+import { createOrder } from "../services/orderService";
 const CartContext = createContext();
 
 export function CartProvider({ children }) {
@@ -52,32 +52,54 @@ export function CartProvider({ children }) {
     return cartItems.reduce((sum, item) => sum + item.quantity, 0);
   };
 
-  const sendWhatsAppCheckout = (formData) => {
+  const sendWhatsAppCheckout = async (formData) => {
+  try {
     const { name, address, orderType } = formData;
-    const adminWhatsApp = '6285808805840'; // Default placeholder, can be replaced by user
-    
-    let message = `*PESANAN BARU - LATAR BALAI MULYOARJO*\n\n`;
+    const adminWhatsApp = "6285808805840";
+
+    let message = `*PESANAN BARU - LATAR BALE MULYOARJO*\n\n`;
     message += `*Detail Pelanggan:*\n`;
     message += `- Nama: ${name}\n`;
     message += `- Alamat: ${address}\n`;
-    message += `- Tipe Pengiriman: ${orderType === 'delivery' ? 'Kirim ke Alamat' : 'Ambil Sendiri'}\n\n`;
-    
+    message += `- Tipe Pengiriman: ${
+      orderType === "delivery" ? "Kirim ke Alamat" : "Ambil Sendiri"
+    }\n\n`;
+
     message += `*Daftar Belanja:*\n`;
     cartItems.forEach((item, index) => {
       const itemTotal = item.price * item.quantity;
-      message += `${index + 1}. ${item.title} (${item.quantity}x) - Rp ${itemTotal.toLocaleString('id-ID')}\n`;
+      message += `${index + 1}. ${item.name} (${item.quantity}x) - Rp ${itemTotal.toLocaleString("id-ID")}\n`;
     });
-    
-    message += `\n*Total Pembayaran:* Rp ${getSubtotal().toLocaleString('id-ID')}\n\n`;
+
+    message += `\n*Total Pembayaran:* Rp ${getSubtotal().toLocaleString("id-ID")}\n\n`;
     message += `Mohon segera diproses ya admin. Terima kasih!`;
-    
+
+    // Simpan order ke Firebase
+    await createOrder({
+      customerName: name,
+      customerAddress: address,
+      customerPhone: "",
+      orderType,
+      items: cartItems,
+      total: getSubtotal(),
+    });
+
+    // Kirim ke WhatsApp
     const encodedMessage = encodeURIComponent(message);
     const whatsappUrl = `https://wa.me/${adminWhatsApp}?text=${encodedMessage}`;
-    
-    window.open(whatsappUrl, '_blank');
+
+    window.open(whatsappUrl, "_blank");
+
+    // Bersihkan keranjang
     clearCart();
     setCartOpen(false);
-  };
+
+  } catch (error) {
+    console.error(error);
+    alert("Checkout gagal, dikarenakan stock habis. Silakan coba lagi.");
+  }
+};
+  
 
   return (
     <CartContext.Provider

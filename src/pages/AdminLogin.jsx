@@ -106,7 +106,7 @@ const handleSubmit = async (e) => {
 
 
           <span className="text-primary font-heading font-bold text-lg tracking-tight">
-            Latar Balai Mulyoarjo
+            Latar Bale Mulyoarjo
           </span>
 
 
@@ -165,7 +165,7 @@ const handleSubmit = async (e) => {
 
             <h1 className="text-3xl font-heading font-extrabold text-primary">
 
-              Portal Administrasi Latar Balai
+              Portal Administrasi Latar Bale
 
             </h1>
 

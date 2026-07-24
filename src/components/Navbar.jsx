@@ -32,7 +32,7 @@ export default function Navbar() {
             M
           </span>
           <span className="font-heading font-bold text-headline-md tracking-tight text-primary">
-            Latar Balai Mulyoarjo
+            Latar Bale Mulyoarjo
           </span>
         </Link>
 

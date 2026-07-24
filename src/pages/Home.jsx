@@ -24,7 +24,7 @@ export default function Home() {
           
           {/* SKALA TYPOGRAPHY: Menaikkan ukuran font agar megah dan sebanding dengan space Hero */}
           <h1 className="font-serif font-bold text-4xl sm:text-5xl md:text-6xl text-white mb-6 drop-shadow-md leading-tight">
-            Latar Balai Mulyoarjo
+            Latar Bale Mulyoarjo
           </h1>
           
           <p className="font-sans text-base md:text-xl text-stone-200 mb-10 max-w-3xl opacity-90 leading-relaxed">
@@ -77,7 +77,7 @@ export default function Home() {
             </h2>
             
             <p className="font-sans text-base md:text-lg text-stone-600 mb-6 leading-relaxed">
-              Latar Balai Mulyoarjo bukan sekadar pusat administrasi, melainkan jantung denyut nadi ekonomi dan budaya desa kami. Kami percaya bahwa setiap jengkal tanah dan setiap individu di desa ini memiliki potensi luar biasa yang siap untuk dikembangkan.
+              Latar Bale Mulyoarjo bukan sekadar pusat administrasi, melainkan jantung denyut nadi ekonomi dan budaya desa kami. Kami percaya bahwa setiap jengkal tanah dan setiap individu di desa ini memiliki potensi luar biasa yang siap untuk dikembangkan.
             </p>
             
             <p className="font-sans text-sm md:text-base text-stone-500 mb-8 leading-relaxed">
