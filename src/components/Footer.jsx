@@ -41,7 +41,7 @@ export default function Footer() {
           </p>
 
           <p className="font-sans text-label-md text-on-surface-variant/70 dark:text-on-surface-variant/70">
-            &copy; 2026 Latar Bale Mulyoarjo. Premium Village Platform.
+            &copy; 2026 Latar Bale Mulyoarjo. dibuat oleh Tim IT KKN MANDIRI kel 28 Universitas Yudharta Pasuruan.
           </p>
         </div>
 
