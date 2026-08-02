@@ -16,7 +16,6 @@ export default function Edukasi() {
       try {
         const data = await getSettings();
 
-        console.log('DATA SETTINGS EDUKASI:', data);
 
         if (data?.hero?.education) {
           setHero((prev) => ({

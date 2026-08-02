@@ -1,10 +1,13 @@
 import { createContext, useContext, useState, useEffect } from 'react';
 import { createOrder } from '../services/orderService';
 import { getSettings } from '../services/settingsService';
+import { useAuth } from './AuthContext';
 
 const CartContext = createContext();
 
 export function CartProvider({ children }) {
+  const { user } = useAuth();
+
   const [cartItems, setCartItems] = useState(() => {
     const saved = localStorage.getItem('mulyoarjo_cart');
     return saved ? JSON.parse(saved) : [];
@@ -29,7 +32,7 @@ export function CartProvider({ children }) {
           const cleanNumber = String(whatsapp).replace(/\D/g, '');
           setTokoWhatsapp(cleanNumber);
 
-          console.log('WhatsApp Toko berhasil dimuat:', cleanNumber);
+         
         } else {
           console.warn(
             'Nomor WhatsApp Toko belum tersedia di Settings.'
@@ -150,12 +153,24 @@ export function CartProvider({ children }) {
   // CHECKOUT VIA WHATSAPP TOKO
   // ============================================================
   const sendWhatsAppCheckout = async (formData) => {
+
     try {
       const {
         name,
         address,
         orderType,
       } = formData;
+      
+      // Pengecekan user
+      if (!user?.uid) {
+        console.error('USER LOGIN TIDAK VALID:', user);
+
+        alert(
+          'Silakan login terlebih dahulu untuk melakukan checkout.'
+        );
+
+        return;
+      }
 
       // Pastikan nomor Toko sudah tersedia
       if (!tokoWhatsapp) {
@@ -201,6 +216,8 @@ export function CartProvider({ children }) {
       // SIMPAN ORDER KE FIREBASE
       // ========================================================
       await createOrder({
+        userId: user.uid,
+
         customerName: name,
         customerAddress: address,
         customerPhone: '',
@@ -218,10 +235,6 @@ export function CartProvider({ children }) {
       const whatsappUrl =
         `https://wa.me/${tokoWhatsapp}?text=${encodedMessage}`;
 
-      console.log(
-        'Checkout dikirim ke WhatsApp Toko:',
-        tokoWhatsapp
-      );
 
       window.open(
         whatsappUrl,

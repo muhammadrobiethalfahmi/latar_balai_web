@@ -116,7 +116,6 @@ const payload = {
   imageUrl,
   status: "aktif",
 };
-      console.log("Payload:", payload);
 
       if (currentProduct) {
         // Edit Mode

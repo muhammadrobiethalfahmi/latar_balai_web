@@ -35,11 +35,6 @@ export default function Toko() {
     try {
       const data = await getProducts();
 
-      console.log(
-        'DATA PRODUK:',
-        JSON.stringify(data, null, 2)
-      );
-
       setProducts(data);
     } catch (error) {
       console.error('Gagal mengambil produk:', error);
@@ -55,8 +50,6 @@ export default function Toko() {
     try {
       const data = await getSettings();
 
-      console.log('DATA SETTINGS TOKO:', data);
-
       // Ambil nomor khusus halaman Toko
       const whatsapp = data?.contact?.toko?.whatsapp;
 
@@ -65,10 +58,6 @@ export default function Toko() {
 
         setTokoWhatsapp(cleanNumber);
 
-        console.log(
-          'Nomor WhatsApp Toko:',
-          cleanNumber
-        );
       }
     } catch (error) {
       console.error(

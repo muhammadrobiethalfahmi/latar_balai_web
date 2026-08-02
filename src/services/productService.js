@@ -7,34 +7,37 @@ import {
 
 const COLLECTION_NAME = "products";
 
+// ========================================
+// GET SEMUA PRODUK
+// ========================================
 export async function getProducts() {
   return await getDocuments(COLLECTION_NAME);
 }
 
+// ========================================
+// TAMBAH PRODUK
+// ========================================
 export async function addProduct(data) {
   return await addDocument(COLLECTION_NAME, data);
 }
 
+// ========================================
+// UPDATE PRODUK
+// ========================================
 export async function updateProduct(id, data) {
-  return await updateDocument(COLLECTION_NAME, id, data);
+  return await updateDocument(
+    COLLECTION_NAME,
+    id,
+    data
+  );
 }
 
+// ========================================
+// HAPUS PRODUK
+// ========================================
 export async function deleteProduct(id) {
-  return await deleteDocument(COLLECTION_NAME, id);
-}
-
-export async function decreaseProductStock(productId, quantity) {
-  const products = await getProducts();
-
-  const product = products.find((p) => p.id === productId);
-
-  if (!product) {
-    throw new Error("Produk tidak ditemukan");
-  }
-
-  const newStock = Math.max(product.stock - quantity, 0);
-
-  await updateProduct(productId, {
-    stock: newStock,
-  });
+  return await deleteDocument(
+    COLLECTION_NAME,
+    id
+  );
 }

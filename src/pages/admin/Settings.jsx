@@ -340,13 +340,11 @@ export default function Settings() {
         text: "",
       });
 
-      console.log(
-        `Mengupload gambar Hero ${HERO_LABELS[activeHero]}...`
-      );
+     
 
       const imageUrl = await uploadImage(file);
 
-      console.log("Cloudinary URL:", imageUrl);
+    
 
       // Masukkan URL Cloudinary ke formData
       setFormData((prev) => ({

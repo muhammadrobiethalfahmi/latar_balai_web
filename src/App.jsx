@@ -30,7 +30,6 @@ const AUTH_ROUTES = ['/login', '/daftar', '/lupa-password', '/admin/login'];
 
 function AppLayout() {
   const location = useLocation();
-  console.log(location.pathname);
   const isAuthPage = AUTH_ROUTES.includes(location.pathname);
   const isAdminPage = location.pathname.startsWith('/admin') && location.pathname !== '/admin/login';
 

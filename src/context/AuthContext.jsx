@@ -12,7 +12,7 @@ export function AuthProvider({ children }) {
   useEffect(() => {
   const unsubscribe = onAuthChange(async (firebaseUser) => {
 
-    console.log("FIREBASE USER:", firebaseUser);
+    
 
     setUser(firebaseUser);
 
@@ -24,13 +24,12 @@ export function AuthProvider({ children }) {
           firebaseUser.uid
         );
 
-        console.log("FIRESTORE PROFILE:", profile);
+        
 
         setUserProfile(profile);
 
       } catch(error) {
 
-        console.log("PROFILE ERROR:", error);
         setUserProfile(null);
       }
 
@@ -92,8 +91,7 @@ export function AuthProvider({ children }) {
 
   const isAdmin = userProfile?.role === 'admin';
 
-console.log("USER PROFILE:", userProfile);
-console.log("IS ADMIN:", isAdmin);
+
 
   return (
     <AuthContext.Provider

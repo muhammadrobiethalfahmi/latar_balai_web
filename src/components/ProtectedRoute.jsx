@@ -2,8 +2,7 @@ import { Navigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
 export default function ProtectedRoute({ children, requireAdmin = false }) {
-  const { user, loading, isAdmin } = useAuth();
-    console.log({
+  const { user, loading, isAdmin } = useAuth();({
     loading,
     user,
     isAdmin,
@@ -26,8 +25,8 @@ export default function ProtectedRoute({ children, requireAdmin = false }) {
   }
 
   if (requireAdmin && !isAdmin) {
-    return <Navigate to="/admin/login" replace />;
-  }
+  return <Navigate to="/login" replace />;
+}
 
   return children;
 }

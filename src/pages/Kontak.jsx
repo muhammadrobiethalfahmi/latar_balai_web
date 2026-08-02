@@ -1,7 +1,10 @@
 import { useEffect, useState } from 'react';
 import { getSettings } from '../services/settingsService';
+import { useAuth } from '../context/AuthContext';
 
 export default function Kontak() {
+  const { user } = useAuth();
+
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -19,8 +22,17 @@ export default function Kontak() {
     email: 'info@mulyoarjo.desa.id',
     phone: '6285808805840',
     whatsapp: '6285808805840',
-    maps: '',
   });
+
+  // =========================================================
+  // GOOGLE MAPS
+  // Lokasi bersifat tetap, jadi tidak perlu dari Settings Admin
+  // =========================================================
+  const mapsEmbedLink =
+    'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3952.580597824458!2d112.7091875!3d-7.8341338!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd7d5400e8e0053%3A0xbba100b9a9cee461!2sWisata%20Latar%20Bale!5e0!3m2!1sid!2sid!4v1785647488973!5m2!1sid!2sid';
+
+  const mapsOpenLink =
+    'https://www.google.com/maps/search/?api=1&query=-7.8341338,112.7091875';
 
   // =========================================================
   // LOAD SETTINGS FIREBASE
@@ -32,8 +44,6 @@ export default function Kontak() {
   async function loadSettings() {
     try {
       const data = await getSettings();
-
-      console.log('SETTINGS KONTAK:', data);
 
       const contact = data?.contact;
 
@@ -59,10 +69,6 @@ export default function Kontak() {
           contact.kontak?.whatsapp ||
           contact.whatsapp ||
           prev.whatsapp,
-
-        maps:
-          contact.maps ||
-          '',
       }));
     } catch (error) {
       console.error(
@@ -89,6 +95,14 @@ export default function Kontak() {
   // =========================================================
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    // Pastikan user sudah login
+    if (!user?.uid) {
+      alert(
+        'Silakan login terlebih dahulu untuk mengirim pesan.'
+      );
+      return;
+    }
 
     const subjectMap = {
       wisata: 'Informasi Wisata',
@@ -149,11 +163,6 @@ export default function Kontak() {
   const formattedPhone = contactData.whatsapp
     ? `+${String(contactData.whatsapp).replace(/\D/g, '')}`
     : 'Nomor belum tersedia';
-
-  // =========================================================
-  // GOOGLE MAPS
-  // =========================================================
-  const mapsLink = "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3952.580597824458!2d112.7091875!3d-7.8341338!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd7d5400e8e0053%3A0xbba100b9a9cee461!2sWisata%20Latar%20Bale!5e0!3m2!1sid!2sid!4v1785647488973!5m2!1sid!2sid" ;
 
   return (
     <main>
@@ -332,6 +341,21 @@ export default function Kontak() {
                 Kirim Pesan
               </h2>
 
+              {/* Login Notice */}
+              {!user?.uid && (
+                <div className="mb-6 bg-primary/10 border border-primary/20 text-primary rounded-lg px-4 py-3 flex items-center gap-2 relative z-10">
+
+                  <span className="material-symbols-outlined text-lg">
+                    lock
+                  </span>
+
+                  <span className="font-sans text-sm font-semibold">
+                    Silakan login terlebih dahulu untuk mengirim pesan.
+                  </span>
+
+                </div>
+              )}
+
               {/* Success Message */}
               {submitted && (
                 <div className="mb-6 bg-primary/10 border border-primary/20 text-primary rounded-lg px-4 py-3 flex items-center gap-2 relative z-10">
@@ -363,7 +387,7 @@ export default function Kontak() {
                     </label>
 
                     <input
-                      className="w-full bg-surface-container-lowest border border-outline-variant rounded-lg px-4 py-3 font-sans text-sm text-on-surface focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all outline-none"
+                      className="w-full bg-surface-container-lowest border border-outline-variant rounded-lg px-4 py-3 font-sans text-sm text-on-surface focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all outline-none disabled:opacity-60 disabled:cursor-not-allowed"
                       id="contact-name"
                       name="name"
                       value={formData.name}
@@ -371,6 +395,7 @@ export default function Kontak() {
                       placeholder="Masukkan nama Anda"
                       type="text"
                       required
+                      disabled={!user?.uid}
                     />
                   </div>
 
@@ -383,7 +408,7 @@ export default function Kontak() {
                     </label>
 
                     <input
-                      className="w-full bg-surface-container-lowest border border-outline-variant rounded-lg px-4 py-3 font-sans text-sm text-on-surface focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all outline-none"
+                      className="w-full bg-surface-container-lowest border border-outline-variant rounded-lg px-4 py-3 font-sans text-sm text-on-surface focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all outline-none disabled:opacity-60 disabled:cursor-not-allowed"
                       id="contact-email"
                       name="email"
                       value={formData.email}
@@ -391,6 +416,7 @@ export default function Kontak() {
                       placeholder="contoh@email.com"
                       type="email"
                       required
+                      disabled={!user?.uid}
                     />
                   </div>
 
@@ -405,12 +431,13 @@ export default function Kontak() {
                   </label>
 
                   <select
-                    className="w-full bg-surface-container-lowest border border-outline-variant rounded-lg px-4 py-3 font-sans text-sm text-on-surface focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all outline-none appearance-none"
+                    className="w-full bg-surface-container-lowest border border-outline-variant rounded-lg px-4 py-3 font-sans text-sm text-on-surface focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all outline-none appearance-none disabled:opacity-60 disabled:cursor-not-allowed"
                     id="contact-subject"
                     name="subject"
                     value={formData.subject}
                     onChange={handleChange}
                     required
+                    disabled={!user?.uid}
                   >
                     <option disabled value="">
                       Pilih topik pertanyaan...
@@ -443,7 +470,7 @@ export default function Kontak() {
                   </label>
 
                   <textarea
-                    className="w-full bg-surface-container-lowest border border-outline-variant rounded-lg px-4 py-3 font-sans text-sm text-on-surface focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all outline-none resize-none"
+                    className="w-full bg-surface-container-lowest border border-outline-variant rounded-lg px-4 py-3 font-sans text-sm text-on-surface focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all outline-none resize-none disabled:opacity-60 disabled:cursor-not-allowed"
                     id="contact-message"
                     name="message"
                     value={formData.message}
@@ -451,17 +478,21 @@ export default function Kontak() {
                     placeholder="Tuliskan pesan atau pertanyaan Anda di sini..."
                     rows="5"
                     required
+                    disabled={!user?.uid}
                   ></textarea>
                 </div>
 
                 <button
-                  className="w-full bg-primary text-on-primary font-sans font-bold text-sm py-4 rounded-lg hover:brightness-110 active:scale-[0.98] transition-all flex justify-center items-center gap-2 cursor-pointer shadow-sm"
+                  className="w-full bg-primary text-on-primary font-sans font-bold text-sm py-4 rounded-lg hover:brightness-110 active:scale-[0.98] transition-all flex justify-center items-center gap-2 cursor-pointer shadow-sm disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:brightness-100 disabled:active:scale-100"
                   type="submit"
+                  disabled={!user?.uid}
                 >
-                  Kirim Pesan
+                  {user?.uid
+                    ? 'Kirim Pesan'
+                    : 'Login untuk Mengirim Pesan'}
 
                   <span className="material-symbols-outlined text-lg">
-                    send
+                    {user?.uid ? 'send' : 'lock'}
                   </span>
                 </button>
 
@@ -471,52 +502,23 @@ export default function Kontak() {
             {/* Map Section */}
             <div className="rounded-xl overflow-hidden border border-outline-variant/30 h-[400px] relative group">
 
-              {mapsLink ? (
-                <iframe
-                  title="Lokasi Desa Mulyoarjo"
-                  src={mapsLink}
-                  className="w-full h-full border-0"
-                  allowFullScreen=""
-                  loading="lazy"
-                  referrerPolicy="no-referrer-when-downgrade"
-                ></iframe>
-              ) : (
-                <div className="w-full h-full bg-surface-container-low flex items-center justify-center">
-                  <div className="text-center px-6">
-                    <span className="material-symbols-outlined text-4xl text-primary mb-3">
-                      location_off
-                    </span>
-
-                    <p className="font-sans font-semibold text-primary">
-                      Lokasi Google Maps belum diatur
-                    </p>
-
-                    <p className="font-sans text-sm text-on-surface-variant mt-1">
-                      Silakan masukkan link Google Maps melalui halaman Pengaturan Admin.
-                    </p>
-                  </div>
-                </div>
-              )}
+              <iframe
+                title="Lokasi Desa Mulyoarjo"
+                src={mapsEmbedLink}
+                className="w-full h-full border-0"
+                allowFullScreen=""
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+              ></iframe>
 
               {/* Overlay for visual appeal */}
-              {mapsLink && (
-                <div className="absolute inset-0 bg-primary/10 group-hover:bg-transparent transition-colors duration-500 pointer-events-none"></div>
-              )}
+              <div className="absolute inset-0 bg-primary/10 group-hover:bg-transparent transition-colors duration-500 pointer-events-none"></div>
 
               <a
-                className={`absolute bottom-6 right-6 bg-surface text-primary px-6 py-3 rounded-lg shadow-lg font-sans font-bold text-sm transition-transform flex items-center gap-2 ${
-                  mapsLink
-                    ? 'hover:-translate-y-1'
-                    : 'opacity-60 cursor-not-allowed'
-                }`}
-                href={mapsLink || '#'}
+                className="absolute bottom-6 right-6 bg-surface text-primary px-6 py-3 rounded-lg shadow-lg font-sans font-bold text-sm transition-transform flex items-center gap-2 hover:-translate-y-1"
+                href={mapsOpenLink}
                 target="_blank"
                 rel="noopener noreferrer"
-                onClick={(e) => {
-                  if (!mapsLink) {
-                    e.preventDefault();
-                  }
-                }}
               >
                 Buka di Google Maps
 
@@ -533,4 +535,3 @@ export default function Kontak() {
     </main>
   );
 }
-

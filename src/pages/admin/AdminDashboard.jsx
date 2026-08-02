@@ -43,7 +43,6 @@ export default function AdminDashboard() {
         getRevenueLast7Days(),
       ]);
 
-      console.log("Revenue Data :", revenueData);
       setStats(dashboard);
       setRevenueChart(revenueData);
 

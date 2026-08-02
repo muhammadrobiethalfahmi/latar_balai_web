@@ -18,7 +18,6 @@ export default function Home() {
       try {
         const data = await getSettings();
 
-        console.log('SETTINGS HERO HOME:', data?.hero?.home);
 
         if (data?.hero?.home) {
           setHero((prev) => ({

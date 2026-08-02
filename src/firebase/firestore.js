@@ -13,6 +13,7 @@ import {
   limit,
   serverTimestamp,
   onSnapshot,
+  runTransaction,
 } from 'firebase/firestore';
 import { db } from './config';
 
@@ -77,7 +78,7 @@ export async function deleteDocument(collectionName, docId) {
 }
 
 // Re-export query helpers for convenience
-export { where, orderBy, limit, serverTimestamp };
+export { where, orderBy, limit, serverTimestamp, runTransaction };
 
 export function subscribeCollection(collectionName, callback) {
   const ref = collection(db, collectionName);

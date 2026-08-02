@@ -16,8 +16,6 @@ export default function Wisata() {
       try {
         const data = await getSettings();
 
-        console.log('DATA SETTINGS WISATA:', data);
-
         if (data?.hero?.tourism) {
           setHero((prev) => ({
             ...prev,
