@@ -22,9 +22,8 @@ import AdminLayout from './pages/admin/AdminLayout';
 import AdminDashboard from './pages/admin/AdminDashboard';
 import Products from './pages/admin/Products';
 import Orders from './pages/admin/Orders';
-import TourismManagement from './pages/admin/TourismManagement';
-import EducationManagement from './pages/admin/EducationManagement';
 import UsersManagement from './pages/admin/UsersManagement';
+import Settings from './pages/admin/Settings';
 
 // Auth pages have their own layouts (no shared Navbar/Footer per Stitch design)
 const AUTH_ROUTES = ['/login', '/daftar', '/lupa-password', '/admin/login'];
@@ -58,9 +57,8 @@ function AppLayout() {
             <Route path="dashboard" element={<AdminDashboard />} />
             <Route path="products" element={<Products />} />
             <Route path="orders" element={<Orders />} />
-            <Route path="tourism" element={<TourismManagement />} />
-            <Route path="education" element={<EducationManagement />} />
             <Route path="users" element={<UsersManagement />} />
+            <Route path="settings" element={<Settings />} />
           </Route>
         </Routes>
       ) : (

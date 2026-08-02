@@ -3,8 +3,6 @@ import { ShoppingBag, MapPin, BookOpen, Users, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import StatCard from '../../components/admin/StatCard';
 import { getDashboardStats,getRevenueLast7Days, } from "../../services/dashboardService";
-import { getTourismPlaces } from '../../services/tourismService';
-import { getArticles } from '../../services/educationService';
 import { getUsers } from '../../services/userService';
 import { getProducts } from "../../services/productService";
 import {

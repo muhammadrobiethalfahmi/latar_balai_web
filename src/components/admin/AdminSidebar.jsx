@@ -1,11 +1,9 @@
-import React from 'react';
+import toast from "react-hot-toast";
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import {
   LayoutDashboard,
   ShoppingBag,
-  MapPin,
-  BookOpen,
   Users,
   ClipboardList,
   Settings,
@@ -19,13 +17,27 @@ export default function AdminSidebar({ mobileOpen, setMobileOpen }) {
   const navigate = useNavigate();
 
   const menuItems = [
-    { name: 'Dashboard', path: '/admin/dashboard', icon: LayoutDashboard },
-    { name: 'Produk BUMDes', path: '/admin/products', icon: ShoppingBag },
-    { name: 'Pesanan', path: '/admin/orders', icon: ClipboardList },
-    { name: 'Wisata Desa', path: '/admin/tourism', icon: MapPin },
-    { name: 'E-Edukasi', path: '/admin/education', icon: BookOpen },
-    { name: 'Manajemen User', path: '/admin/users', icon: Users },
-  ];
+  {
+    name: 'Dashboard',
+    path: '/admin/dashboard',
+    icon: LayoutDashboard,
+  },
+  {
+    name: 'Produk BUMDes',
+    path: '/admin/products',
+    icon: ShoppingBag,
+  },
+  {
+    name: 'Pesanan',
+    path: '/admin/orders',
+    icon: ClipboardList,
+  },
+  {
+    name: 'Manajemen User',
+    path: '/admin/users',
+    icon: Users,
+  },
+];
 
   const handleLogout = async () => {
     try {
@@ -88,10 +100,7 @@ export default function AdminSidebar({ mobileOpen, setMobileOpen }) {
 
         {/* Dummy Settings Link */}
         <button
-          onClick={() => {
-            toast.success('Fitur Pengaturan sedang dikembangkan');
-            setMobileOpen(false);
-          }}
+          onClick={() => navigate("/admin/settings")}
           className="w-full flex items-center gap-3.5 px-4 py-3 rounded-lg text-body-md font-medium text-white/80 hover:bg-white/10 hover:text-white transition-all duration-200 text-left cursor-pointer"
         >
           <Settings size={20} />
